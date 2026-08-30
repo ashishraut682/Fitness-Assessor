@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Multi-Sport Fitness & Kinematic Assessment System</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Full-Screen Auth / Login Page (Shown first when opening app) -->
+    <div id="login-screen-view" class="auth-wrapper">
+        <div class="auth-theme-container">
+            <button class="theme-toggle-btn auth-theme-toggle" id="btn-auth-theme-toggle" title="Toggle Light / Dark Mode" onclick="toggleTheme()">
+                <i class="fa-solid fa-moon auth-theme-icon"></i>
+                <span class="auth-theme-label">Dark</span>
+            </button>
+        </div>
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="brand-logo" style="width: 56px; height: 56px; font-size: 1.6rem; margin: 0 auto 14px;">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <h2 class="auth-title">FitPulse AI System</h2>
+                <p class="auth-subtitle">AI Multi-Sport Kinematic Tracking & Biomechanics Engine</p>
+
+                <div class="auth-db-badge" onclick="showAuthDbModal()">
+                    <i class="fa-solid fa-database"></i> Auth DB: <strong>SQLite 3</strong> (<code>users_auth.db</code>)
+                    <i class="fa-solid fa-circle-info" style="margin-left: 4px;"></i>
+                </div>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="auth-tab-btn active" id="tab-login" onclick="switchAuthTab('login')">
+                    <i class="fa-solid fa-lock"></i> Sign In
+                </button>
+                <button class="auth-tab-btn" id="tab-register" onclick="switchAuthTab('register')">
+                    <i class="fa-solid fa-user-plus"></i> Create Account
+                </button>
+            </div>
+
+            <!-- Alert Notification Box -->
+            <div id="auth-alert" class="auth-alert hidden"></div>
+
+            <!-- LOGIN FORM -->
+            <form id="form-login" onsubmit="handleLoginSubmit(event)" class="auth-form">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-envelope"></i> Email Address</label>
+                    <input type="email" id="login-email" required placeholder="alex@example.com"
+                        value="alex@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-key"></i> Password</label>
+                    <div class="input-password-wrapper">
+                        <input type="password" id="login-password" required placeholder="••••••••" value="password123">
+                        <i class="fa-solid fa-eye toggle-pwd"
+                            onclick="togglePasswordVisibility('login-password', this)"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-auth-submit" id="btn-login-submit">
+                    <span>Sign In to Dashboard</span> <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <!-- REGISTER FORM -->
+            <form id="form-register" onsubmit="handleRegisterSubmit(event)" class="auth-form hidden">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-user"></i> Full Name</label>
+                    <input type="text" id="reg-name" required placeholder="e.g. Jordan Miller">
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-envelope"></i> Email Address</label>
+                    <input type="email" id="reg-email" required placeholder="jordan@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-key"></i> Password</label>
+                    <div class="input-password-wrapper">
+                        <input type="password" id="reg-password" required placeholder="Min 6 characters">
+                        <i class="fa-solid fa-eye toggle-pwd"
+                            onclick="togglePasswordVisibility('reg-password', this)"></i>
+                    </div>
+                </div>
+
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" id="reg-age" value="24" min="10" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select id="reg-gender">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-auth-submit" id="btn-register-submit">
+                    <span>Create Account (Saves to users_auth.db)</span> <i class="fa-solid fa-user-check"></i>
+                </button>
+            </form>
+
+            <div class="auth-divider">
+                <span>Or Quick Demo Sign In</span>
+            </div>
+
+            <div class="quick-login-grid">
+                <button class="quick-user-btn" type="button" onclick="quickLogin('alex@example.com', 'password123')">
+                    <div class="avatar-sm">AR</div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 0.85rem;">Alex Rivera</div>
+                        <div style="font-size: 0.72rem; color: var(--text-muted);">alex@example.com</div>
+                    </div>
+                </button>
+                <button class="quick-user-btn" type="button" onclick="quickLogin('sarah@example.com', 'password123')">
+                    <div class="avatar-sm" style="background: linear-gradient(135deg, #10b981, #059669);">SC</div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 0.85rem;">Sarah Chen</div>
+                        <div style="font-size: 0.72rem; color: var(--text-muted);">sarah@example.com</div>
+                    </div>
+                </button>
+            </div>
+
+            <div class="auth-db-info-footer">
+                <i class="fa-solid fa-shield-halved" style="color: var(--primary-accent);"></i>
+                Separate Auth DB: <code>database/users_auth.db</code> | Engine: <code>SQLite 3</code>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar">
+            <div class="brand-header">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <div class="brand-text">FitPulse AI</div>
+            </div>
+
+            <nav class="nav-menu">
+                <a class="nav-link active" onclick="switchWebPage('page-dashboard')" id="nav-web-dashboard">
+                    <i class="fa-solid fa-house nav-icon"></i>
+                    <span class="link-text">Dashboard</span>
+                </a>
+
+                <div
+                    style="font-size: 0.7rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; padding: 12px 14px 4px; letter-spacing: 1px;">
+                    Sports Modules</div>
+
+                <a class="nav-link" onclick="switchSportModule('gym')" id="nav-mod-gym">
+                    <i class="fa-solid fa-dumbbell nav-icon" style="color: var(--primary-accent);"></i>
+                    <span class="link-text">Gym & Resistance</span>
+                </a>
+
+                <a class="nav-link" onclick="switchSportModule('yoga')" id="nav-mod-yoga">
+                    <i class="fa-solid fa-spa nav-icon" style="color: var(--emerald-accent);"></i>
+                    <span class="link-text">Yoga & Flexibility</span>
+                </a>
+
+                <a class="nav-link" onclick="switchSportModule('basketball')" id="nav-mod-basketball">
+                    <i class="fa-solid fa-basketball nav-icon" style="color: var(--amber-accent);"></i>
+                    <span class="link-text">Basketball Form</span>
+                </a>
+
+                <a class="nav-link" onclick="switchSportModule('cricket')" id="nav-mod-cricket">
+                    <i class="fa-solid fa-baseball-bat-ball nav-icon" style="color: var(--violet-accent);"></i>
+                    <span class="link-text">Cricket Biomechanics</span>
+                </a>
+
+                <a class="nav-link" onclick="switchSportModule('athletics')" id="nav-mod-athletics">
+                    <i class="fa-solid fa-person-running nav-icon" style="color: var(--coral-accent);"></i>
+                    <span class="link-text">Athletics & Gait</span>
+                </a>
+
+                <div
+                    style="font-size: 0.7rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; padding: 12px 14px 4px; letter-spacing: 1px;">
+                    Analytics & AI</div>
+
+                <a class="nav-link" onclick="switchWebPage('page-results')" id="nav-web-results">
+                    <i class="fa-solid fa-chart-pie nav-icon"></i>
+                    <span class="link-text">Form & Scoring</span>
+                </a>
+                <a class="nav-link" onclick="switchWebPage('page-recs')" id="nav-web-recs">
+                    <i class="fa-solid fa-wand-magic-sparkles nav-icon"></i>
+                    <span class="link-text">AI Recommendations</span>
+                </a>
+                <a class="nav-link" onclick="switchWebPage('page-analytics')" id="nav-web-analytics">
+                    <i class="fa-solid fa-chart-line nav-icon"></i>
+                    <span class="link-text">Progress Analytics</span>
+                </a>
+                <a class="nav-link" onclick="switchWebPage('page-profile')" id="nav-web-profile">
+                    <i class="fa-solid fa-user nav-icon"></i>
+                    <span class="link-text">User Profile</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-user-footer">
+                <div style="display: flex; align-items: center; gap: 10px; flex: 1;">
+                    <div class="user-avatar" id="avatar-initials">AR</div>
+                    <div class="sidebar-user-details">
+                        <div style="font-size: 0.9rem; font-weight: 700;" id="user-display-name">Alex Rivera</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);" id="user-display-email">
+                            alex@example.com</div>
+                    </div>
+                </div>
+                <button class="btn-logout" title="Sign Out & Lock App" onclick="logoutUser()">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Navbar with History Navigation -->
+            <header class="top-navbar">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <button id="btn-nav-back" class="nav-history-btn disabled" title="Go Back (Previous Page)"
+                        onclick="goBackPage()" disabled>
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button id="btn-nav-forward" class="nav-history-btn disabled" title="Go Forward (Next Page)"
+                        onclick="goForwardPage()" disabled>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+
+                <div class="search-wrapper">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" class="search-input"
+                        placeholder="Search Gym, Yoga, Basketball, Cricket, Athletics...">
+                </div>
+
+                <div class="top-actions">
+                    <button id="btn-theme-toggle" class="theme-toggle-btn" title="Toggle Light / Dark Mode" onclick="toggleTheme()">
+                        <i id="theme-icon" class="fa-solid fa-moon"></i>
+                        <span id="theme-text" class="theme-label">Dark</span>
+                    </button>
+                    <button class="action-btn" title="Settings & Profile" onclick="switchWebPage('page-profile')"><i
+                            class="fa-solid fa-gear"></i></button>
+                    <button class="nav-logout-btn" title="Sign Out & Lock System" onclick="logoutUser()">
+                        <i class="fa-solid fa-right-from-bracket"></i> <span>Sign Out</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- PAGE 1: DASHBOARD -->
+            <div id="page-dashboard" class="page-view active">
+                <div class="hero-banner">
+                    <div>
+                        <span
+                            style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; color: var(--primary-accent); letter-spacing: 1px;">AI
+                            Multi-Sport Motion Intelligence</span>
+                        <h1 class="hero-title">Welcome Back, <span id="dash-greeting-name">Alex Rivera</span></h1>
+                        <p class="hero-subtitle">Kinematic tracking for Gym, Yoga, Basketball shooting, Cricket bowling
+                            straightness, and Athletics sprint gait.</p>
+                    </div>
+                    <div>
+                        <button class="btn-web-primary" onclick="switchSportModule('gym')">
+                            <i class="fa-solid fa-play"></i> Open Gym Module
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 5 Sport Module Selector Cards -->
+                <h3 style="font-size: 1.1rem; margin-top: 10px;">Select Sport Discipline</h3>
+                <div class="grid-3">
+                    <div class="web-card"
+                        style="cursor: pointer; background: rgba(0, 242, 254, 0.05); border-color: rgba(0, 242, 254, 0.2);"
+                        onclick="switchSportModule('gym')">
+                        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+                            <div
+                                style="width: 44px; height: 44px; background: var(--primary-accent); border-radius: 12px; display: flex; justify-content: center; align-items: center; color: #000; font-size: 1.3rem;">
+                                <i class="fa-solid fa-dumbbell"></i>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 1rem;">1. Gym & Resistance</h4>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">Squats, Pushups, Planks,
+                                    Lunges</span>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">Joint angles (<90° squat depth, elbow
+                                flex), rep counters, spine tilt.</p>
+                    </div>
+
+                    <div class="web-card"
+                        style="cursor: pointer; background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2);"
+                        onclick="switchSportModule('yoga')">
+                        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+                            <div
+                                style="width: 44px; height: 44px; background: var(--emerald-accent); border-radius: 12px; display: flex; justify-content: center; align-items: center; color: #000; font-size: 1.3rem;">
+                                <i class="fa-solid fa-spa"></i>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 1rem;">2. Yoga & Mobility</h4>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">Tree Pose, Warrior II,
+                                    Cobra</span>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">Vrksasana balance stability, horizontal
+                            arm horizon alignment, lumbar flex.</p>
+                    </div>
+
+                    <div class="web-card"
+                        style="cursor: pointer; background: rgba(245, 158, 11, 0.05); border-color: rgba(245, 158, 11, 0.2);"
+                        onclick="switchSportModule('basketball')">
+                        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+                            <div
+                                style="width: 44px; height: 44px; background: var(--amber-accent); border-radius: 12px; display: flex; justify-content: center; align-items: center; color: #000; font-size: 1.3rem;">
+                                <i class="fa-solid fa-basketball"></i>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 1rem;">3. Basketball Form</h4>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">Shooting Form &
+                                    Defense</span>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">90° L-shape elbow set point, wrist snap
+                            follow-through, defensive stance flex.</p>
+                    </div>
+
+                    <div class="web-card"
+                        style="cursor: pointer; background: rgba(139, 92, 246, 0.05); border-color: rgba(139, 92, 246, 0.2);"
+                        onclick="switchSportModule('cricket')">
+                        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+                            <div
+                                style="width: 44px; height: 44px; background: var(--violet-accent); border-radius: 12px; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 1.3rem;">
+                                <i class="fa-solid fa-baseball-bat-ball"></i>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 1rem;">4. Cricket Kinematics</h4>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">Batting Stance & Bowling
+                                    Straightness</span>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">High backlift elbow angle, head
+                            stability, legal bowling arm compliance (<15° flex).</p>
+                    </div>
+
+                    <div class="web-card"
+                        style="cursor: pointer; background: rgba(255, 94, 98, 0.05); border-color: rgba(255, 94, 98, 0.2);"
+                        onclick="switchSportModule('athletics')">
+                        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+                            <div
+                                style="width: 44px; height: 44px; background: var(--coral-accent); border-radius: 12px; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 1.3rem;">
+                                <i class="fa-solid fa-person-running"></i>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 1rem;">5. Athletics & Sprint</h4>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">Running Gait & Block
+                                    Stance</span>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">Knee drive height angle, 5°-10° forward
+                            torso lean, sprint set angles.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 2: POSE ASSESSMENT (MULTI-SPORT) -->
+            <div id="page-assess" class="page-view">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                    <div>
+                        <h2 style="font-size: 1.5rem;" id="sport-assess-title">Gym - Squat Pose Detection</h2>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">MediaPipe 33-landmark pose estimation &
+                            kinematic tracker.</p>
+                    </div>
+
+                    <!-- Exercise Dropdown & Mode Badge -->
+                    <div style="display: flex; align-items: center; gap: 12px;">
+
+                        <select id="exercise-picker" class="form-input-web" onchange="changeActiveExercise(this.value)"
+                            style="padding: 8px 16px;">
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="widescreen-canvas-container">
+                    <video id="webcam-feed" autoplay playsinline muted style="display: none;"></video>
+                    <video id="uploaded-video-feed" playsinline muted style="display: none;"></video>
+                    <canvas id="output-canvas"></canvas>
+                    <div class="canvas-overlay-hud">
+                        <div class="hud-pill"><i class="fa-solid fa-stopwatch"
+                                style="color: var(--primary-accent);"></i> Reps / Count: <span id="web-overlay-reps"
+                                style="color: var(--primary-accent); font-size: 1.1rem;">0</span></div>
+                        <div class="hud-pill"><i class="fa-solid fa-compass" style="color: var(--emerald-accent);"></i>
+                            Primary Angle: <span id="web-overlay-angle"
+                                style="color: var(--emerald-accent); font-size: 1.1rem;">175°</span></div>
+                        <div class="hud-pill"><i class="fa-solid fa-heart-pulse"
+                                style="color: var(--violet-accent);"></i> Stage: <span id="web-overlay-stage"
+                                style="color: #fff;">STANDBY</span></div>
+                    </div>
+                </div>
+
+                <div class="feedback-banner-web" id="web-feedback-banner">
+                    <i class="fa-solid fa-video"></i> Click <strong>"Start Live Recording"</strong> to
+                    capture live webcam or <strong>"Upload Video File"</strong> to analyze an offline video.
+                </div>
+
+                <div class="assessment-controls-row" style="display: flex; gap: 12px; flex-wrap: wrap;">
+                    <!-- 1. Start / Stop Live Recording -->
+                    <button id="btn-camera-record" class="btn-web-secondary"
+                        style="flex: 1.2; display: flex; align-items: center; justify-content: center; gap: 8px;"
+                        onclick="toggleCameraRecording()">
+                        <i class="fa-solid fa-circle-dot" style="color: #ef4444;" id="btn-camera-icon"></i> <span
+                            id="btn-camera-text">Start Live Recording</span>
+                    </button>
+
+                    <!-- 2. Video File Upload (No camera activation) -->
+                    <button id="btn-video-upload" class="btn-web-secondary"
+                        style="flex: 1.2; display: flex; align-items: center; justify-content: center; gap: 8px;"
+                        onclick="document.getElementById('video-file-input').click()">
+                        <i class="fa-solid fa-file-video" style="color: var(--primary-accent);"></i> Upload Video File
+                    </button>
+                    <input type="file" id="video-file-input" accept="video/*" style="display: none;"
+                        onchange="handleVideoFileUpload(event)">
+
+                    <!-- 3. Test Motion Simulation Demo -->
+                    <button class="btn-web-secondary"
+                        style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;"
+                        onclick="simulatePoseRep()">
+                        <i class="fa-solid fa-play" style="color: var(--emerald-accent);"></i> Motion Demo
+                    </button>
+
+                    <!-- 4. Complete & Calculate Score -->
+                    <button class="btn-web-primary"
+                        style="flex: 1.5; display: flex; align-items: center; justify-content: center; gap: 8px;"
+                        onclick="finishAssessment()">
+                        <i class="fa-solid fa-chart-pie"></i> Complete & Calculate Score
+                    </button>
+                </div>
+            </div>
+
+            <!-- PAGE 3: FORM & SCORING -->
+            <div id="page-results" class="page-view">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <h2 style="font-size: 1.5rem;">Multi-Sport Kinematic Scoring</h2>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Weighted 4-factor scoring model: Strength 30%, Flexibility 25%, Balance 20%, Posture 25%.</p>
+                    </div>
+                    <button class="btn-web-primary" onclick="openAssessmentReportModal()" style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-file-pdf"></i> Download Improvement & Practice Report PDF
+                    </button>
+                </div>
+
+                <div class="web-card widescreen-score-box">
+                    <div class="score-ring-web">
+                        <svg width="170" height="170" viewBox="0 0 120 120">
+                            <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.08)"
+                                stroke-width="10" />
+                            <circle id="web-score-circle" cx="60" cy="60" r="50" fill="none"
+                                stroke="url(#web-score-grad)" stroke-width="10" stroke-dasharray="314"
+                                stroke-dashoffset="70" stroke-linecap="round" transform="rotate(-90 60 60)" />
+                            <defs>
+                                <linearGradient id="web-score-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#00f2fe" />
+                                    <stop offset="100%" stop-color="#4facfe" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="score-num-web" style="position: absolute;" id="web-final-score-val">76.5</div>
+                    </div>
+                    <div>
+                        <span
+                            style="font-size: 0.8rem; font-weight: 800; uppercase; color: var(--primary-accent); letter-spacing: 1px;">OVERALL
+                            SCORE TIER</span>
+                        <h3 style="font-size: 1.8rem; margin: 4px 0 10px; color: var(--emerald-accent);"
+                            id="web-tier-label">Good (Fit Level)</h3>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); max-width: 600px; line-height: 1.5;">
+                            Biomechanical pose analysis confirms solid body stability and execution. Review sub-score
+                            breakdowns below for targeted mobility drills.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="web-card">
+                        <div class="card-title">Strength Sub-Score (30% Weight)</div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                            <span>Repetition Power Output</span>
+                            <strong id="web-val-strength">70.0%</strong>
+                        </div>
+                        <div class="progress-bar-web">
+                            <div class="progress-fill-web" id="web-bar-strength" style="width: 70%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="web-card">
+                        <div class="card-title">Flexibility Sub-Score (25% Weight)</div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                            <span>Joint Angle Mobility</span>
+                            <strong id="web-val-flexibility">65.0%</strong>
+                        </div>
+                        <div class="progress-bar-web">
+                            <div class="progress-fill-web" id="web-bar-flexibility" style="width: 65%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="web-card">
+                        <div class="card-title">Balance Sub-Score (20% Weight)</div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                            <span>Center of Mass Stability</span>
+                            <strong id="web-val-balance">85.0%</strong>
+                        </div>
+                        <div class="progress-bar-web">
+                            <div class="progress-fill-web" id="web-bar-balance" style="width: 85%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="web-card">
+                        <div class="card-title">Posture Sub-Score (25% Weight)</div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                            <span>Spinal & Shoulder Alignment</span>
+                            <strong id="web-val-posture">80.0%</strong>
+                        </div>
+                        <div class="progress-bar-web">
+                            <div class="progress-fill-web" id="web-bar-posture" style="width: 80%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 4: AI RECOMMENDATIONS -->
+            <div id="page-recs" class="page-view">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <h2 style="font-size: 1.5rem;">AI Training Recommendations & 4-Week Plan</h2>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Predictive recommendations generated by Heuristic Rules and RandomForest ML Model.</p>
+                    </div>
+                    <button class="btn-web-primary" onclick="openAssessmentReportModal()" style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-file-pdf"></i> Download Improvement & Practice Report PDF
+                    </button>
+                </div>
+
+                <div class="grid-3" id="web-recommendations-grid">
+                    <!-- Cards -->
+                </div>
+
+                <div class="web-card">
+                    <div class="card-title">Generated 4-Week Training Schedule</div>
+                    <div class="grid-4" id="web-workout-schedule-grid">
+                        <!-- Schedule -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 5: ANALYTICS -->
+            <div id="page-analytics" class="page-view">
+                <div>
+                    <h2 style="font-size: 1.5rem;">Multi-Sport Progress Analytics</h2>
+                    <p style="font-size: 0.85rem; color: var(--text-muted);">Historical fitness trends and posture logs.
+                    </p>
+                </div>
+
+                <div class="web-card">
+                    <div class="card-title">Fitness Score Trend</div>
+                    <div style="height: 200px; display: flex; align-items: flex-end; gap: 24px; padding-top: 20px; justify-content: space-around;"
+                        id="web-trend-chart">
+                        <!-- Bars -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGE 6: PROFILE -->
+            <div id="page-profile" class="page-view">
+                <div>
+                    <h2 style="font-size: 1.5rem;">User Profile & Biometric Metrics</h2>
+                </div>
+                <div class="web-card">
+                    <form onsubmit="handleProfileUpdate(event)" class="form-grid">
+                        <div class="form-group-web"><label class="form-label-web">Full Name</label><input type="text"
+                                id="prof-name" class="form-input-web" value="Alex Rivera" required></div>
+                        <div class="form-group-web"><label class="form-label-web">Email</label><input type="email"
+                                id="prof-email" class="form-input-web" value="alex@example.com" required></div>
+                        <div class="form-group-web"><label class="form-label-web">Age</label><input type="number"
+                                id="prof-age" class="form-input-web" value="24" required></div>
+                        <div class="form-group-web"><label class="form-label-web">Gender</label><select id="prof-gender"
+                                class="form-input-web">
+                                <option selected>Male</option>
+                                <option>Female</option>
+                            </select></div>
+                        <div style="grid-column: span 2; margin-top: 10px;"><button type="submit"
+                                class="btn-web-primary">Save Metrics</button></div>
+                    </form>
+                </div>
+
+                <!-- Interface Appearance & Display Theme Card -->
+                <div class="web-card" style="margin-top: 20px;">
+                    <div class="card-title" style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-palette" style="color: var(--secondary-accent);"></i> Interface Theme & Display Mode
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px; max-width: 600px;">
+                        Choose your preferred workspace aesthetic. Switch effortlessly between modern cyberpunk Dark Mode and clean high-contrast Light Mode.
+                    </p>
+                    <div class="theme-settings-row">
+                        <div class="theme-option active" id="theme-opt-dark" onclick="setAppTheme('dark')">
+                            <div class="theme-preview dark-preview">
+                                <div class="preview-header">
+                                    <span class="preview-dot"></span>
+                                    <span class="preview-dot"></span>
+                                    <span class="preview-dot"></span>
+                                </div>
+                                <div class="preview-body">
+                                    <div class="preview-line w-60"></div>
+                                    <div class="preview-line w-80"></div>
+                                    <div class="preview-badge"></div>
+                                </div>
+                            </div>
+                            <div class="theme-option-info">
+                                <div style="font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">
+                                    <i class="fa-solid fa-moon" style="color: #f59e0b;"></i> Dark Mode
+                                </div>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">Sleek cyberpunk glassmorphism</span>
+                            </div>
+                            <i class="fa-solid fa-circle-check theme-check-icon"></i>
+                        </div>
+
+                        <div class="theme-option" id="theme-opt-light" onclick="setAppTheme('light')">
+                            <div class="theme-preview light-preview">
+                                <div class="preview-header">
+                                    <span class="preview-dot"></span>
+                                    <span class="preview-dot"></span>
+                                    <span class="preview-dot"></span>
+                                </div>
+                                <div class="preview-body">
+                                    <div class="preview-line w-60"></div>
+                                    <div class="preview-line w-80"></div>
+                                    <div class="preview-badge"></div>
+                                </div>
+                            </div>
+                            <div class="theme-option-info">
+                                <div style="font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 6px;">
+                                    <i class="fa-solid fa-sun" style="color: #0284c7;"></i> Light Mode
+                                </div>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">Crisp high-contrast daytime interface</span>
+                            </div>
+                            <i class="fa-solid fa-circle-check theme-check-icon"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Security & Log Out Card -->
+                <div class="web-card"
+                    style="margin-top: 20px; border-color: rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.05);">
+                    <div class="card-title" style="color: #fca5a5; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-shield-halved"></i> Account Security & Active Session
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px; max-width: 600px;">
+                        Sign out of your active session on this device. Your biometric profile and assessment records
+                        are securely saved in SQLite database.
+                    </p>
+                    <button type="button" class="btn-logout-danger" onclick="logoutUser()">
+                        <i class="fa-solid fa-right-from-bracket"></i> Log Out of Account
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Separate Database Inspection Modal -->
+    <div id="modal-db-info" class="db-modal-overlay hidden" onclick="closeAuthDbModal(event)">
+        <div class="db-modal-card" onclick="event.stopPropagation()">
+            <div class="db-modal-header">
+                <h3><i class="fa-solid fa-database" style="color: var(--primary-accent);"></i> Database Architecture &
+                    Engine Info</h3>
+                <button class="btn-close-modal" onclick="closeAuthDbModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="db-modal-body">
+                <div class="db-info-pill-row">
+                    <div class="info-pill"><span class="pill-lbl">Database Engine</span><strong class="pill-val">SQLite
+                            3</strong></div>
+                    <div class="info-pill"><span class="pill-lbl">File Extension</span><strong
+                            class="pill-val">.db</strong></div>
+                    <div class="info-pill"><span class="pill-lbl">Python Driver</span><strong
+                            class="pill-val">sqlite3</strong></div>
+                </div>
+
+                <div class="db-section-box">
+                    <h4><i class="fa-solid fa-key" style="color: var(--emerald-accent);"></i> 1. Separate User
+                        Authentication Database</h4>
+                    <div class="db-meta-detail">
+                        <div><strong>File Name:</strong> <code>users_auth.db</code></div>
+                        <div><strong>Path:</strong> <code>database/users_auth.db</code></div>
+                        <div><strong>Tables:</strong> <code>UserAuth</code>, <code>LoginAuditLogs</code></div>
+                        <div><strong>Purpose:</strong> Stores user login credentials, hashed passwords, user roles, and
+                            security audit logs.</div>
+                    </div>
+                </div>
+
+                <div class="db-section-box">
+                    <h4><i class="fa-solid fa-dumbbell" style="color: var(--violet-accent);"></i> 2. Main Fitness
+                        Application Database</h4>
+                    <div class="db-meta-detail">
+                        <div><strong>File Name:</strong> <code>fitness_app.db</code></div>
+                        <div><strong>Path:</strong> <code>database/fitness_app.db</code></div>
+                        <div><strong>Tables:</strong> <code>Users</code>, <code>Assessments</code>,
+                            <code>Recommendations</code>, <code>WorkoutPlans</code>
+                        </div>
+                        <div><strong>Purpose:</strong> Stores kinematic tracking scores, 5-sport performance metrics,
+                            and AI recommendations.</div>
+                    </div>
+                </div>
+
+                <div id="live-db-inspect-content" class="live-inspect-box">
+                    <div style="text-align: center; color: var(--text-muted);"><i
+                            class="fa-solid fa-spinner fa-spin"></i> Fetching live database inspection from backend...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Comprehensive Fitness Kinematic PDF Report Modal -->
+    <div id="modal-assessment-report" class="db-modal-overlay hidden" onclick="closeReportModal(event)">
+        <div class="db-modal-card" style="max-width: 820px; width: 95%; background: #080d1a; border: 1px solid var(--primary-accent);" onclick="event.stopPropagation()">
+            <div class="db-modal-header no-print" style="border-bottom: 1px solid var(--card-border); padding-bottom: 14px;">
+                <h3><i class="fa-solid fa-file-pdf" style="color: var(--primary-accent);"></i> Generated Fitness Kinematic Diagnostic Report</h3>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button class="btn-web-primary" onclick="printAssessmentReport()" style="padding: 8px 18px; font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-print"></i> Print / Save as PDF
+                    </button>
+                    <button class="btn-close-modal" onclick="closeReportModal()"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            </div>
+            <div class="db-modal-body" style="padding-top: 16px;">
+                <div id="report-printable-area">
+                    <!-- Dynamic Printable Report Contents -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
