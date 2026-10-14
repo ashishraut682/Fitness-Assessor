@@ -1,17 +1,18 @@
 # 🏋️ AI Multi-Sport Fitness Assessment & Personalized Training Recommendation System
 
-An advanced, real-time computer vision web application that evaluates human movement kinematics across **5 sports modules** (Gym, Yoga, Basketball, Cricket, and Athletics). Using **MediaPipe Pose 33-landmark estimation**, the system tracks joint angles, body center of mass stability, rep counts, and posture alignment, delivering objective performance scoring, machine learning recommendations, and printable personalized improvement reports.
+An advanced, real-time computer vision web application that evaluates human movement kinematics across **6 sports modules** (Gym, Yoga, Basketball, Cricket, Athletics, and Kabaddi). Using **MediaPipe Pose 33-landmark estimation**, the system tracks joint angles, body center of mass stability, rep counts, and posture alignment, delivering objective performance scoring, machine learning recommendations, and printable personalized improvement reports.
 
 ---
 
 ## 🌟 Key Features
 
-* 🏆 **5-Sport Kinematic Motion Engine:**
+* 🏆 **6-Sport Kinematic Motion Engine:**
   * 🏋️ **Gym & Resistance:** Squats (depth $<90^\circ$), Pushups (elbow flex & plank line), Core Planks ($\ge 165^\circ$), Lunges ($90^\circ$ stride).
   * 🧘 **Yoga & Mobility:** Tree Pose (*Vrksasana* balance), Warrior II (*Virabhadrasana II* arm horizon), Cobra Pose (*Bhujangasana* lumbar extension).
   * 🏀 **Basketball:** Shooting Form (90° L-elbow set point & wrist snap), Defensive Stance (low center of gravity knee dip).
   * 🏏 **Cricket:** Batting Stance (high backlift elbow), Bowling Action Straightness (ICC legal $<15^\circ$ elbow flex compliance check).
   * 🏃 **Athletics & Sprint:** Running Gait (high knee drive & $5^\circ$--$10^\circ$ torso forward lean), Sprint Block Stance (front $90^\circ$ / rear $120^\circ$ knee set angles).
+  * 🛡️ **Kabaddi & Agility:** Raider Toe Touch & Reach (extended lunge & forward arm tag), Defender Chain & Ankle Hold Stance (low COG crouch $95^\circ$--$125^\circ$), Dubki Evasion ($<85^\circ$ low duck dip & explosive drive).
 * 🔒 **Dual-Database Architecture (SQLite 3 - `.db` files):**
   * `database/users_auth.db`: Dedicated authentication database for user credentials, hashed passwords, roles, and security audit logs (`UserAuth`, `LoginAuditLogs`).
   * `database/fitness_app.db`: Dedicated application database for kinematic scores, biometric profiles, recommendations, and workout schedules (`Users`, `Assessments`, `Recommendations`, `WorkoutPlans`).

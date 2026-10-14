@@ -57,13 +57,28 @@ A comprehensive, adaptive **Dark and Light Mode Theme System** was designed and 
 * **Lifecycle Initialization:**
   * Wired up `initTheme()` within the `DOMContentLoaded` event listener and registered OS color scheme change listeners.
 
+## 🤼 Kabaddi Sport Kinematic Module Addition
+
+**Feature Implemented:** 6th Sport Module (Kabaddi & Agility Kinematics Engine)  
+**Date:** August 31, 2026  
+
+### Detailed Features:
+* **Raider Toe Touch & Reach Lunge (`kabaddi_raider_touch`):**
+  * Evaluates deep lead knee flexion ($\le 110^\circ$) and forward arm reaching tag extensions ($\ge 140^\circ$), tracking state from `APPROACH` $\to$ `TOUCH_REACH` and rep counting on balance recovery.
+* **Defender Chain & Ankle Hold Stance (`kabaddi_defender_stance`):**
+  * Evaluates low center-of-gravity defensive crouch ($90^\circ$--$125^\circ$ knee flexion), wide base symmetry, and core balance stability ($\ge 75\%$).
+* **Dubki Evasion & Low Dip (`kabaddi_dubki`):**
+  * Evaluates rapid duck-and-dive squat depth ($\le 85^\circ$ knee flexion) under defender arm level followed by explosive forward extension clearance.
+
 ---
 
 ## 📊 Summary of Modified and New Files
 
 | File Path | Action | Description |
 | :--- | :--- | :--- |
-| [`frontend/index.html`](file:///c:/Users/LOQ/OneDrive/Desktop/ashish45/frontend/index.html) | Modified | Added theme buttons in Navbar, Auth Screen, and Profile settings |
-| [`frontend/styles.css`](file:///c:/Users/LOQ/OneDrive/Desktop/ashish45/frontend/styles.css) | Modified | Added theme variables, light theme styling, and button animations |
-| [`frontend/app.js`](file:///c:/Users/LOQ/OneDrive/Desktop/ashish45/frontend/app.js) | Modified | Added theme switching, persistence, UI synchronization, and canvas adaptations |
-| [`changes/CHANGES_SUMMARY.md`](file:///c:/Users/LOQ/OneDrive/Desktop/ashish45/changes/CHANGES_SUMMARY.md) | Created | Detailed changelog and record of all project modifications |
+| [`backend/exercise_analyzer.py`](file:///c:/Users/LOQ/OneDrive/Desktop/ashish45/backend/exercise_analyzer.py) | Modified | Added Kabaddi rep counters, state transitions, and pose kinematic analyzer |
+| [`frontend/index.html`](file:///c:/Users/LOQ/OneDrive/Desktop/ashish45/frontend/index.html) | Modified | Added Kabaddi nav link, dashboard selector card, and updated search/hero |
+| [`frontend/styles.css`](file:///c:/Users/LOQ/OneDrive/Desktop/ashish45/frontend/styles.css) | Modified | Added `--kabaddi-accent` color tokens for dark & light modes |
+| [`frontend/app.js`](file:///c:/Users/LOQ/OneDrive/Desktop/ashish45/frontend/app.js) | Modified | Configured `SPORT_EXERCISES.kabaddi`, feedback maps, and state handling |
+| [`README.md`](file:///c:/Users/LOQ/OneDrive/Desktop/ashish45/README.md) | Modified | Updated documentation to 6 sport modules with Kabaddi kinematic rules |
+| [`changes/CHANGES_SUMMARY.md`](file:///c:/Users/LOQ/OneDrive/Desktop/ashish45/changes/CHANGES_SUMMARY.md) | Modified | Added Kabaddi module details to changelog |

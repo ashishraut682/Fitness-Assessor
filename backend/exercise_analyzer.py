@@ -8,11 +8,13 @@ class MultiSportAnalyzer:
         # Repetition State Counters
         self.rep_counters = {
             "squat": 0, "pushup": 0, "lunge": 0, "deadlift": 0,
-            "shooting_form": 0, "bowling_action": 0, "sprint_stride": 0
+            "shooting_form": 0, "bowling_action": 0, "sprint_stride": 0,
+            "kabaddi_raider_touch": 0, "kabaddi_defender_stance": 0, "kabaddi_dubki": 0
         }
         self.stages = {
             "squat": "UP", "pushup": "UP", "lunge": "UP", "deadlift": "UP",
-            "shooting_form": "SET", "bowling_action": "START", "sprint_stride": "DRIVE"
+            "shooting_form": "SET", "bowling_action": "START", "sprint_stride": "DRIVE",
+            "kabaddi_raider_touch": "APPROACH", "kabaddi_defender_stance": "STANCE", "kabaddi_dubki": "PREPARE"
         }
         self.min_angles = {"squat": 180.0, "pushup": 180.0}
 
@@ -246,6 +248,79 @@ class MultiSportAnalyzer:
                     "category": "Athletics", "exercise": "Sprint Block Stance",
                     "stage": "SET", "feedback": feedback, "stability_score": stability,
                     "angles": {"front_knee_angle": front_knee, "rear_knee_angle": rear_knee}
+                }
+
+        # ==========================================
+        # 6. KABADDI MODULE
+        # ==========================================
+        elif cat == "kabaddi":
+            if ex in ["kabaddi_raider_touch", "raider_touch"]:
+                lead_knee = calculate_angle(l_hip, l_knee, l_ankle)
+                reach_arm = calculate_angle(l_shoulder, l_elbow, l_wrist)
+                spine_lean = calculate_spine_lean(l_ear, l_hip, l_ankle)
+
+                if lead_knee <= 110 and reach_arm >= 140:
+                    if self.stages["kabaddi_raider_touch"] == "APPROACH":
+                        self.stages["kabaddi_raider_touch"] = "TOUCH_REACH"
+                        feedback = "Full Reach & Lunge Tag! Maintain balance to retreat."
+                    else:
+                        feedback = "Extending reach for defender tag..."
+                elif lead_knee > 145 and self.stages["kabaddi_raider_touch"] == "TOUCH_REACH":
+                    self.stages["kabaddi_raider_touch"] = "APPROACH"
+                    self.rep_counters["kabaddi_raider_touch"] += 1
+                    feedback = "Sharp Raider Touch Rep! Fast recoil back to mid-line."
+                else:
+                    feedback = "Step forward with low center-of-gravity into reach stride..."
+
+                return {
+                    "category": "Kabaddi", "exercise": "Raider Toe Touch & Reach",
+                    "rep_count": self.rep_counters["kabaddi_raider_touch"],
+                    "stage": self.stages["kabaddi_raider_touch"],
+                    "feedback": feedback, "stability_score": stability,
+                    "angles": {"lead_knee_lunge": lead_knee, "arm_reach_extension": reach_arm, "torso_lean": spine_lean}
+                }
+
+            elif ex in ["kabaddi_defender_stance", "defender_stance"]:
+                l_knee_angle = calculate_angle(l_hip, l_knee, l_ankle)
+                r_knee_angle = calculate_angle(r_hip, r_knee, r_ankle)
+                stance_knee = round((l_knee_angle + r_knee_angle) / 2.0, 1)
+                arm_reach = calculate_arm_horizon(l_shoulder, l_wrist, r_shoulder, r_wrist)
+
+                is_optimal = (90 <= stance_knee <= 125) and (stability >= 75)
+                feedback = "Optimal Low Defender Chain Stance! Primed for tackle/ankle-hold." if is_optimal else "Sink hips deeper into crouch and widen defensive stance base."
+
+                return {
+                    "category": "Kabaddi", "exercise": "Defender Chain & Ankle Hold Stance",
+                    "stage": "CHAIN_READY",
+                    "feedback": feedback, "stability_score": stability,
+                    "angles": {"knee_crouch_flex": stance_knee, "chain_arm_reach": arm_reach, "symmetry_stability": stability}
+                }
+
+            elif ex in ["kabaddi_dubki", "dubki"]:
+                l_knee_angle = calculate_angle(l_hip, l_knee, l_ankle)
+                r_knee_angle = calculate_angle(r_hip, r_knee, r_ankle)
+                crouch_depth = round((l_knee_angle + r_knee_angle) / 2.0, 1)
+                spine_lean = calculate_spine_lean(l_ear, l_hip, l_ankle)
+
+                if crouch_depth <= 85:
+                    if self.stages["kabaddi_dubki"] == "PREPARE":
+                        self.stages["kabaddi_dubki"] = "DUBKI_DIP"
+                        feedback = "Deep Dubki Ducking! Under defender arm horizon."
+                    else:
+                        feedback = "Low clearance achieved. Drive explosively forward!"
+                elif crouch_depth > 140 and self.stages["kabaddi_dubki"] == "DUBKI_DIP":
+                    self.stages["kabaddi_dubki"] = "PREPARE"
+                    self.rep_counters["kabaddi_dubki"] += 1
+                    feedback = "Explosive Dubki Escape Rep! Midline cleared."
+                else:
+                    feedback = "Anticipate defender chain & initiate low duck dip..."
+
+                return {
+                    "category": "Kabaddi", "exercise": "Dubki Evasion & Low Dip",
+                    "rep_count": self.rep_counters["kabaddi_dubki"],
+                    "stage": self.stages["kabaddi_dubki"],
+                    "feedback": feedback, "stability_score": stability,
+                    "angles": {"dubki_crouch_angle": crouch_depth, "evasion_spine_lean": spine_lean}
                 }
 
         # Fallback default

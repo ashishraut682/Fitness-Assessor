@@ -26,6 +26,11 @@ const SPORT_EXERCISES = {
     athletics: [
         { id: "running_gait", name: "Running Gait & 5-10° Torso Lean" },
         { id: "sprint_start", name: "Sprint Block Stance Angles" }
+    ],
+    kabaddi: [
+        { id: "kabaddi_raider_touch", name: "Raider Toe Touch & Reach Lunge" },
+        { id: "kabaddi_defender_stance", name: "Defender Chain & Ankle Hold Stance" },
+        { id: "kabaddi_dubki", name: "Dubki Evasion & Low Dip" }
     ]
 };
 
@@ -396,7 +401,8 @@ function simulatePoseRep() {
         yoga: "Excellent Vrksasana Pose Alignment! Core balance stable.",
         basketball: "High Release Set Point (90° L-elbow) & wrist snap!",
         cricket: "Legal Straight Bowling Arm Delivery (<15° flex) verified!",
-        athletics: "High Knee Drive & Optimal 5°-10° Torso Lean!"
+        athletics: "High Knee Drive & Optimal 5°-10° Torso Lean!",
+        kabaddi: "Sharp Raider Reach & Extended Stride! Quick recovery verified."
     };
 
     const fb = feedbackMap[currentCategory] || "Good kinematic biomechanics!";

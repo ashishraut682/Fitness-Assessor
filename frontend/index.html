@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Multi-Sport Fitness & Kinematic Assessment System</title>
+    <title>Polly Fitness Hub - AI Multi-Sport Kinematic Assessment & Performance System</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,7 +30,7 @@
                 <div class="brand-logo" style="width: 56px; height: 56px; font-size: 1.6rem; margin: 0 auto 14px;">
                     <i class="fa-solid fa-bolt"></i>
                 </div>
-                <h2 class="auth-title">FitPulse AI System</h2>
+                <h2 class="auth-title">Polly Fitness Hub</h2>
                 <p class="auth-subtitle">AI Multi-Sport Kinematic Tracking & Biomechanics Engine</p>
 
                 <div class="auth-db-badge" onclick="showAuthDbModal()">
@@ -149,7 +149,7 @@
                 <div class="brand-logo">
                     <i class="fa-solid fa-bolt"></i>
                 </div>
-                <div class="brand-text">FitPulse AI</div>
+                <div class="brand-text">Polly Fitness Hub</div>
             </div>
 
             <nav class="nav-menu">
@@ -187,9 +187,20 @@
                     <span class="link-text">Athletics & Gait</span>
                 </a>
 
+                <a class="nav-link" onclick="switchSportModule('kabaddi')" id="nav-mod-kabaddi">
+                    <i class="fa-solid fa-shield-halved nav-icon" style="color: var(--kabaddi-accent);"></i>
+                    <span class="link-text">Kabaddi & Agility</span>
+                </a>
+
                 <div
                     style="font-size: 0.7rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; padding: 12px 14px 4px; letter-spacing: 1px;">
-                    Analytics & AI</div>
+                    Pro Toolkit & Analytics</div>
+
+                <a class="nav-link" onclick="switchWebPage('page-pro-items')" id="nav-web-pro-items">
+                    <i class="fa-solid fa-crown nav-icon" style="color: #f59e0b;"></i>
+                    <span class="link-text">Professional Items</span>
+                    <span class="pro-tag-badge">PRO</span>
+                </a>
 
                 <a class="nav-link" onclick="switchWebPage('page-results')" id="nav-web-results">
                     <i class="fa-solid fa-chart-pie nav-icon"></i>
@@ -242,7 +253,7 @@
                 <div class="search-wrapper">
                     <i class="fa-solid fa-magnifying-glass search-icon"></i>
                     <input type="text" class="search-input"
-                        placeholder="Search Gym, Yoga, Basketball, Cricket, Athletics...">
+                        placeholder="Search Gym, Yoga, Basketball, Cricket, Athletics, Kabaddi...">
                 </div>
 
                 <div class="top-actions">
@@ -267,7 +278,7 @@
                             Multi-Sport Motion Intelligence</span>
                         <h1 class="hero-title">Welcome Back, <span id="dash-greeting-name">Alex Rivera</span></h1>
                         <p class="hero-subtitle">Kinematic tracking for Gym, Yoga, Basketball shooting, Cricket bowling
-                            straightness, and Athletics sprint gait.</p>
+                            straightness, Athletics sprint gait, and Kabaddi raiding & defense.</p>
                     </div>
                     <div>
                         <button class="btn-web-primary" onclick="switchSportModule('gym')">
@@ -276,7 +287,7 @@
                     </div>
                 </div>
 
-                <!-- 5 Sport Module Selector Cards -->
+                <!-- 6 Sport Module Selector Cards -->
                 <h3 style="font-size: 1.1rem; margin-top: 10px;">Select Sport Discipline</h3>
                 <div class="grid-3">
                     <div class="web-card"
@@ -312,7 +323,7 @@
                             </div>
                         </div>
                         <p style="font-size: 0.8rem; color: var(--text-muted);">Vrksasana balance stability, horizontal
-                            arm horizon alignment, lumbar flex.</p>
+                             arm horizon alignment, lumbar flex.</p>
                     </div>
 
                     <div class="web-card"
@@ -368,6 +379,43 @@
                         <p style="font-size: 0.8rem; color: var(--text-muted);">Knee drive height angle, 5°-10° forward
                             torso lean, sprint set angles.</p>
                     </div>
+
+                    <div class="web-card"
+                        style="cursor: pointer; background: rgba(255, 120, 73, 0.05); border-color: rgba(255, 120, 73, 0.2);"
+                        onclick="switchSportModule('kabaddi')">
+                        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 10px;">
+                            <div
+                                style="width: 44px; height: 44px; background: var(--kabaddi-accent); border-radius: 12px; display: flex; justify-content: center; align-items: center; color: #fff; font-size: 1.3rem;">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div>
+                                <h4 style="font-size: 1rem;">6. Kabaddi & Agility</h4>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">Raider Touch, Chain Stance, Dubki</span>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">Dynamic lunge reach, low center-of-gravity defensive crouch, and dubki evasion clearance.</p>
+                    </div>
+                </div>
+
+                <!-- Pro Athlete Items Spotlight Card -->
+                <div class="web-card" style="margin-top: 24px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(0, 242, 254, 0.06)); border-color: rgba(245, 158, 11, 0.25); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                    <div style="display: flex; align-items: center; gap: 18px;">
+                        <div style="width: 52px; height: 52px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 16px; display: flex; justify-content: center; align-items: center; color: #000; font-size: 1.6rem; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);">
+                            <i class="fa-solid fa-crown"></i>
+                        </div>
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <h4 style="font-size: 1.15rem; margin: 0;">Polly Professional Athlete Gear & Equipment Hub</h4>
+                                <span class="pro-tag-badge">18 PRO ITEMS</span>
+                            </div>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 4px 0 0; max-width: 650px;">
+                                Explore smart sensor balls, carbon powerlifting lever belts, ICC compliance bowling sleeves, cork alignment mats, and track spikes engineered for all 6 sport modules.
+                            </p>
+                        </div>
+                    </div>
+                    <button class="btn-web-primary" onclick="switchWebPage('page-pro-items')" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #000; font-weight: 800; display: flex; align-items: center; gap: 8px; border: none; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);">
+                        <i class="fa-solid fa-crown"></i> Browse Pro Items & Gear
+                    </button>
                 </div>
             </div>
 

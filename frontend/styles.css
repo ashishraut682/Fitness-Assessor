@@ -14,6 +14,7 @@
     --violet-accent: #8b5cf6;
     --amber-accent: #f59e0b;
     --coral-accent: #ff5e62;
+    --kabaddi-accent: #ff7849;
     --text-main: #f8fafc;
     --text-muted: #94a3b8;
     --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -43,6 +44,7 @@
     --violet-accent: #7c3aed;
     --amber-accent: #d97706;
     --coral-accent: #e11d48;
+    --kabaddi-accent: #ea580c;
     --text-main: #0f172a;
     --text-muted: #64748b;
     --theme-toggle-bg: rgba(15, 23, 42, 0.06);
@@ -1675,5 +1677,340 @@ body.light-theme .auth-divider::before {
 body.light-theme .auth-db-info-footer {
     color: #64748b;
     border-top-color: #e2e8f0;
+}
+
+/* ==========================================================================
+   PROFESSIONAL ITEMS & ATHLETE GEAR HUB STYLES
+   ========================================================================== */
+
+.pro-tag-badge {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #000;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 6px;
+    margin-left: auto;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+}
+
+.pro-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.sport-filter-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.sport-filter-pill {
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sport-filter-pill:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-main);
+    border-color: var(--primary-accent);
+    transform: translateY(-1px);
+}
+
+.sport-filter-pill.active {
+    background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(79, 172, 254, 0.25));
+    border-color: var(--primary-accent);
+    color: var(--primary-accent);
+    box-shadow: 0 0 12px rgba(0, 242, 254, 0.25);
+}
+
+.pro-items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+.pro-item-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(16px);
+}
+
+.pro-item-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--primary-accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.pro-item-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--card-hover-border);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+.pro-item-card:hover::before {
+    opacity: 1;
+}
+
+.pro-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 14px;
+}
+
+.pro-sport-badge {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.pro-item-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.pro-item-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+    color: var(--text-main);
+    line-height: 1.35;
+}
+
+.pro-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.pro-price {
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: var(--primary-accent);
+}
+
+.pro-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.8rem;
+    color: #f59e0b;
+}
+
+.pro-specs-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.pro-spec-pill {
+    font-size: 0.72rem;
+    padding: 3px 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    color: var(--text-muted);
+}
+
+.pro-benefit-box {
+    background: rgba(0, 242, 254, 0.04);
+    border: 1px solid rgba(0, 242, 254, 0.15);
+    border-radius: 12px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+}
+
+.pro-benefit-box strong {
+    color: var(--emerald-accent);
+    display: block;
+    margin-bottom: 2px;
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.pro-target-metric {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--secondary-accent);
+    margin-bottom: 14px;
+}
+
+.pro-card-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.btn-equip-pro {
+    flex: 1.2;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    color: var(--text-main);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-equip-pro:hover {
+    background: rgba(0, 242, 254, 0.15);
+    border-color: var(--primary-accent);
+    color: var(--primary-accent);
+}
+
+.btn-equip-pro.equipped {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(5, 150, 105, 0.35));
+    border-color: var(--emerald-accent);
+    color: #10b981;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-specs-pro {
+    flex: 0.8;
+    padding: 10px 12px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.btn-specs-pro:hover {
+    color: var(--text-main);
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Light Theme Overrides for Pro Items */
+body.light-theme .sport-filter-pill {
+    background: #ffffff;
+    border-color: #cbd5e1;
+    color: #64748b;
+}
+
+body.light-theme .sport-filter-pill:hover {
+    background: #f8fafc;
+    color: #0f172a;
+    border-color: #0284c7;
+}
+
+body.light-theme .sport-filter-pill.active {
+    background: linear-gradient(135deg, rgba(2, 132, 199, 0.12), rgba(37, 99, 235, 0.15));
+    border-color: #0284c7;
+    color: #0284c7;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.15);
+}
+
+body.light-theme .pro-item-card {
+    background: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
+}
+
+body.light-theme .pro-item-card:hover {
+    border-color: #0284c7;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.1);
+}
+
+body.light-theme .pro-spec-pill {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #475569;
+}
+
+body.light-theme .pro-benefit-box {
+    background: rgba(2, 132, 199, 0.05);
+    border-color: rgba(2, 132, 199, 0.2);
+    color: #475569;
+}
+
+body.light-theme .btn-equip-pro {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #1e293b;
+}
+
+body.light-theme .btn-equip-pro:hover {
+    background: #f0f9ff;
+    border-color: #0284c7;
+    color: #0284c7;
+}
+
+body.light-theme .btn-equip-pro.equipped {
+    background: #ecfdf5;
+    border-color: #059669;
+    color: #059669;
+}
+
+body.light-theme .btn-specs-pro {
+    border-color: #cbd5e1;
+    color: #64748b;
+}
+
+body.light-theme .btn-specs-pro:hover {
+    background: #f1f5f9;
+    color: #0f172a;
 }
 

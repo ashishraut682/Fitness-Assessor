@@ -341,6 +341,314 @@ def get_dashboard(user_id):
         "fitness_history": history
     })
 
+@app.route("/api/pro-items", methods=["GET"])
+def get_pro_items():
+    """Returns curated catalogue of professional equipment and athlete gear for all 6 sport modules."""
+    sport_filter = request.args.get("sport", "").lower()
+    
+    items = [
+        # 1. Gym & Resistance
+        {
+            "id": "gym-1",
+            "name": "Polly Carbon-Core Lever Powerlifting Belt",
+            "sport": "gym",
+            "sportLabel": "Gym & Resistance",
+            "category": "Strength Gear",
+            "price": 89.00,
+            "rating": 4.9,
+            "reviews": 240,
+            "icon": "fa-solid fa-dumbbell",
+            "badge": "IPF Approved",
+            "specs": ["10mm Full-Grain Leather", "Titanium Quick-Release Lever", "Standard 4-inch Back Width"],
+            "biomechanicalBenefit": "Maintains optimal intra-abdominal pressure during sub-90° squats and heavy deadlifts, minimizing spinal shear.",
+            "targetMetric": "Strength & Posture",
+            "recommendedFor": "Squats & Deadlifts"
+        },
+        {
+            "id": "gym-2",
+            "name": "Polly 7mm High-Rebound Neoprene Knee Sleeves",
+            "sport": "gym",
+            "sportLabel": "Gym & Resistance",
+            "category": "Joint Support",
+            "price": 49.00,
+            "rating": 4.8,
+            "reviews": 190,
+            "icon": "fa-solid fa-bandage",
+            "badge": "Heavy Duty",
+            "specs": ["7mm High-Density SCR Neoprene", "3D Anatomical Seams", "Anti-Slip Silicone Grip Ring"],
+            "biomechanicalBenefit": "Provides joint compression and thermal retention to stabilize knee tracking at deep flexion angles.",
+            "targetMetric": "Strength & Balance",
+            "recommendedFor": "Squats & Lunges"
+        },
+        {
+            "id": "gym-3",
+            "name": "Polly Laser-Calibrated Fractional Steel Plates (Set)",
+            "sport": "gym",
+            "sportLabel": "Gym & Resistance",
+            "category": "Progression Gear",
+            "price": 39.00,
+            "rating": 4.9,
+            "reviews": 85,
+            "icon": "fa-solid fa-weight-hanging",
+            "badge": "CNC Machined",
+            "specs": ["0.5kg, 1.0kg, 1.5kg, 2.0kg Pairs", "Solid Zinc Plated Steel", "Precision +/- 5g Tolerance"],
+            "biomechanicalBenefit": "Allows controlled progressive overload to break strength plateaus without compromising lift form.",
+            "targetMetric": "Strength",
+            "recommendedFor": "Progressive Overload"
+        },
+        # 2. Yoga & Mobility
+        {
+            "id": "yoga-1",
+            "name": "Polly Alignment Pro Organic Cork Yoga Mat",
+            "sport": "yoga",
+            "sportLabel": "Yoga & Mobility",
+            "category": "Mobility & Balance",
+            "price": 65.00,
+            "rating": 5.0,
+            "reviews": 310,
+            "icon": "fa-solid fa-spa",
+            "badge": "Eco-Certified",
+            "specs": ["100% Sustainable Natural Cork", "Laser-Etched Kinematic Alignment Grid", "Non-Slip Natural Rubber Base (5mm)"],
+            "biomechanicalBenefit": "Laser-etched guidelines ensure exact foot placement and symmetrical shoulder alignment in Warrior II & Tree Pose.",
+            "targetMetric": "Flexibility & Balance",
+            "recommendedFor": "Tree Pose & Warrior II"
+        },
+        {
+            "id": "yoga-2",
+            "name": "Polly Spine-Relief Deep Tissue Mobility Wheel",
+            "sport": "yoga",
+            "sportLabel": "Yoga & Mobility",
+            "category": "Mobility Gear",
+            "price": 35.00,
+            "rating": 4.8,
+            "reviews": 145,
+            "icon": "fa-solid fa-circle-notch",
+            "badge": "Ergonomic Spine Channel",
+            "specs": ["ABS Unbreakable Core (500 lbs limit)", "Sweat-Resistant Textured Padding", "Spine Canal Relief Groove"],
+            "biomechanicalBenefit": "Facilitates safe thoracic extension in Bhujangasana (Cobra Pose) and releases anterior shoulder tightness.",
+            "targetMetric": "Flexibility & Posture",
+            "recommendedFor": "Cobra Pose (Bhujangasana)"
+        },
+        {
+            "id": "yoga-3",
+            "name": "Polly High-Density Beveled Bamboo Yoga Blocks (Pair)",
+            "sport": "yoga",
+            "sportLabel": "Yoga & Mobility",
+            "category": "Stability Gear",
+            "price": 28.00,
+            "rating": 4.9,
+            "reviews": 112,
+            "icon": "fa-solid fa-cubes",
+            "badge": "Solid Bamboo",
+            "specs": ["Eco Solid Hardwood Bamboo", "Smooth Beveled Comfort Edges", "Non-Compressible High Stability"],
+            "biomechanicalBenefit": "Extends reach and stabilizes pelvic tilt in standing balancing poses without wrist strain.",
+            "targetMetric": "Balance & Flexibility",
+            "recommendedFor": "Standing Mobility"
+        },
+        # 3. Basketball Form
+        {
+            "id": "bball-1",
+            "name": "Polly SmartArc 9-Axis Sensor Basketball (Size 7)",
+            "sport": "basketball",
+            "sportLabel": "Basketball Form",
+            "category": "Smart Sensor Gear",
+            "price": 129.00,
+            "rating": 4.9,
+            "reviews": 175,
+            "icon": "fa-solid fa-basketball",
+            "badge": "Bluetooth 5.3 Telemetry",
+            "specs": ["Embedded 9-Axis IMU Sensor", "Real-Time Shot Arc (45-52°) Tracking", "Backspin RPM & Release Velocity"],
+            "biomechanicalBenefit": "Measures wrist snap speed, release trajectory, and entry angle to optimize consistent 90° shooting mechanics.",
+            "targetMetric": "Posture & Strength",
+            "recommendedFor": "Shooting Form Check"
+        },
+        {
+            "id": "bball-2",
+            "name": "Polly Precision 90° L-Elbow Shooting Guide Strap",
+            "sport": "basketball",
+            "sportLabel": "Basketball Form",
+            "category": "Kinematic Guide",
+            "price": 24.00,
+            "rating": 4.7,
+            "reviews": 98,
+            "icon": "fa-solid fa-arrows-to-dot",
+            "badge": "Form Corrector",
+            "specs": ["Elastic Memory Webbing", "Adjustable Hook-and-Loop Band", "Prevents Guide-Hand Thumb Flick"],
+            "biomechanicalBenefit": "Enforces proper vertical elbow alignment and prevents lateral arm drift during the shooting motion.",
+            "targetMetric": "Posture",
+            "recommendedFor": "Shooting Set Point"
+        },
+        {
+            "id": "bball-3",
+            "name": "Polly Heavy Weighted Training Basketball (1.3kg / 3 lbs)",
+            "sport": "basketball",
+            "sportLabel": "Basketball Form",
+            "category": "Strength & Grip",
+            "price": 38.00,
+            "rating": 4.8,
+            "reviews": 120,
+            "icon": "fa-solid fa-hand-fist",
+            "badge": "Weight Loaded",
+            "specs": ["Official Size 7 Diameter", "Composite Microfiber Leather", "Internal Balanced Weight Core"],
+            "biomechanicalBenefit": "Develops forearm and finger-extensor power for higher release points and crisp passing speed.",
+            "targetMetric": "Strength",
+            "recommendedFor": "Release Follow-Through"
+        },
+        # 4. Cricket Kinematics
+        {
+            "id": "cricket-1",
+            "name": "Polly SmartSleeve ICC Compliance Bowling Tracker",
+            "sport": "cricket",
+            "sportLabel": "Cricket Biomechanics",
+            "category": "Smart Sensor Gear",
+            "price": 115.00,
+            "rating": 4.9,
+            "reviews": 160,
+            "icon": "fa-solid fa-baseball-bat-ball",
+            "badge": "ICC Legal <15° Check",
+            "specs": ["Gyroscopic Flex Sensor (1000Hz)", "Live Elbow Angle Audio Feedback", "Ultra-Lightweight Compression Lycra"],
+            "biomechanicalBenefit": "Instant acoustic alert when bowling arm flexion exceeds 15° legal limit during delivery swing.",
+            "targetMetric": "Posture & Balance",
+            "recommendedFor": "Bowling Action Straightness"
+        },
+        {
+            "id": "cricket-2",
+            "name": "Polly Pro Grade 1 English Willow Bat with Sensor Cavity",
+            "sport": "cricket",
+            "sportLabel": "Cricket Biomechanics",
+            "category": "Pro Weaponry",
+            "price": 199.00,
+            "rating": 5.0,
+            "reviews": 205,
+            "icon": "fa-solid fa-shield-halved",
+            "badge": "Grade 1 Willow",
+            "specs": ["Unbleached Grade 1 English Willow", "Carbon Composite Handle Insertion", "High Sweet Spot for Quick Backlift"],
+            "biomechanicalBenefit": "Light pickup weight enables rapid high backlift elevation while maintaining steady head alignment.",
+            "targetMetric": "Balance & Strength",
+            "recommendedFor": "Batting Stance & Backlift"
+        },
+        {
+            "id": "cricket-3",
+            "name": "Polly Micro-Radar Bowling Release Speed & Angle Gauge",
+            "sport": "cricket",
+            "sportLabel": "Cricket Biomechanics",
+            "category": "Kinematic Radar",
+            "price": 89.00,
+            "rating": 4.8,
+            "reviews": 88,
+            "icon": "fa-solid fa-gauge-high",
+            "badge": "Doppler Radar",
+            "specs": ["Digital Doppler Radar (Up to 160 km/h)", "Tripod & Net Mountable", "Instant LED Speed Readout"],
+            "biomechanicalBenefit": "Measures arm acceleration efficiency and velocity transfer from run-up stride to release.",
+            "targetMetric": "Speed & Posture",
+            "recommendedFor": "Bowling Pace Analysis"
+        },
+        # 5. Athletics & Track
+        {
+            "id": "ath-1",
+            "name": "Polly Carbon-Fly Full-Length Carbon Plate Sprint Spikes",
+            "sport": "athletics",
+            "sportLabel": "Athletics & Gait",
+            "category": "Track & Speed",
+            "price": 145.00,
+            "rating": 4.9,
+            "reviews": 280,
+            "icon": "fa-solid fa-person-running",
+            "badge": "Full Carbon Plate",
+            "specs": ["Full-Length Curved Carbon Fiber Plate", "6-Pin Replaceable Sprint Spike Array", "Engineered Monomesh (140g)"],
+            "biomechanicalBenefit": "Provides high energy return at toe-off, naturally reinforcing high forward knee drive angles.",
+            "targetMetric": "Speed & Strength",
+            "recommendedFor": "Running Gait & Stride"
+        },
+        {
+            "id": "ath-2",
+            "name": "Polly Dual-Gate Infrared Laser Sprint Timing Gates",
+            "sport": "athletics",
+            "sportLabel": "Athletics & Gait",
+            "category": "Precision Timing",
+            "price": 185.00,
+            "rating": 4.9,
+            "reviews": 110,
+            "icon": "fa-solid fa-stopwatch-20",
+            "badge": "Millisecond Precision",
+            "specs": ["Dual Optical Infrared Beams", "0.001s Time Resolution", "50m Wireless Range with App Sync"],
+            "biomechanicalBenefit": "Captures exact split times from sprint block departure (front 90° / rear 120°) to maximum acceleration.",
+            "targetMetric": "Speed",
+            "recommendedFor": "Sprint Block Stance"
+        },
+        {
+            "id": "ath-3",
+            "name": "Polly Dynamic Drag Sprint Parachute (56-inch)",
+            "sport": "athletics",
+            "sportLabel": "Athletics & Gait",
+            "category": "Resistance Speed",
+            "price": 29.00,
+            "rating": 4.7,
+            "reviews": 150,
+            "icon": "fa-solid fa-wind",
+            "badge": "Variable Drag",
+            "specs": ["Ripstop Aerodynamic Canopy", "360° Quick-Release Swivel Belt", "15-30 lbs Progressive Drag"],
+            "biomechanicalBenefit": "Forces the sprinter to maintain a forward 5°-10° torso lean angle under acceleration.",
+            "targetMetric": "Strength & Posture",
+            "recommendedFor": "Torso Lean & Knee Drive"
+        },
+        # 6. Kabaddi & Pro Contact
+        {
+            "id": "kabaddi-1",
+            "name": "Polly Pro Mat-Grip High-Traction Kabaddi Shoes",
+            "sport": "kabaddi",
+            "sportLabel": "Kabaddi & Agility",
+            "category": "Court Performance",
+            "price": 75.00,
+            "rating": 5.0,
+            "reviews": 230,
+            "icon": "fa-solid fa-shoe-prints",
+            "badge": "Mat-Optimized Gum Sole",
+            "specs": ["High-Traction Gum Rubber Grip", "Padded Ankle Stabilization Collar", "Ultra-Lightweight Microfiber (220g)"],
+            "biomechanicalBenefit": "Prevents court slippage during deep raider toe touches and enables rapid backward retreat deceleration.",
+            "targetMetric": "Agility & Balance",
+            "recommendedFor": "Raider Toe Touch & Reach"
+        },
+        {
+            "id": "kabaddi-2",
+            "name": "Polly Armor-Shield Kevlar Impact Knee & Elbow Guards",
+            "sport": "kabaddi",
+            "sportLabel": "Kabaddi & Agility",
+            "category": "Protective Armor",
+            "price": 42.00,
+            "rating": 4.9,
+            "reviews": 195,
+            "icon": "fa-solid fa-shield-halved",
+            "badge": "Kevlar Anti-Abrasion",
+            "specs": ["Multi-Layer EVA Gel Impact Core", "Kevlar Anti-Friction Surface", "Perforated Air-Flow Neoprene Sleeve"],
+            "biomechanicalBenefit": "Shields joints and skin from mat burns during explosive low dubki dives and heavy chain tackles.",
+            "targetMetric": "Flexibility & Agility",
+            "recommendedFor": "Dubki Evasion & Low Dip"
+        },
+        {
+            "id": "kabaddi-3",
+            "name": "Polly Quick-Lock Kinetic Ankle & Wrist Support Braces",
+            "sport": "kabaddi",
+            "sportLabel": "Kabaddi & Agility",
+            "category": "Joint Armor",
+            "price": 26.00,
+            "rating": 4.8,
+            "reviews": 140,
+            "icon": "fa-solid fa-lock",
+            "badge": "Cross-Strap Lock",
+            "specs": ["Figure-8 Cross Locking Straps", "Flexible Medial/Lateral Stabilizers", "Breathable Moisture-Wicking Weave"],
+            "biomechanicalBenefit": "Reinforces ankle joint against high rotational torque when locked in defender ankle holds.",
+            "targetMetric": "Balance & Agility",
+            "recommendedFor": "Defender Chain Stance"
+        }
+    ]
+
+    if sport_filter:
+        filtered = [i for i in items if i["sport"] == sport_filter]
+        return jsonify({"items": filtered, "total": len(filtered), "sport": sport_filter})
+
+    return jsonify({"items": items, "total": len(items)})
+
 if __name__ == "__main__":
     print("[Flask Server] Starting AI Fitness Assessment API on port 5000...")
     app.run(host="0.0.0.0", port=5000, debug=True)
